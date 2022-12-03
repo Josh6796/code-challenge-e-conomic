@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
+using Timelogger.Api.Repository;
+using Timelogger.Api.Services;
 using Timelogger.Entities;
 
 namespace Timelogger.Api
@@ -31,13 +33,20 @@ namespace Timelogger.Api
 		{
 			// Add framework services.
 			services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("e-conomic interview"));
-			services.AddLogging(builder =>
+            services.AddControllers();
+
+            services.AddSwaggerGen();
+
+            services.AddScoped<IProjectsRepository, ProjectsRepository>();
+            services.AddScoped<IProjectsService, ProjectsService>();
+
+            services.AddLogging(builder =>
 			{
 				builder.AddConsole();
 				builder.AddDebug();
 			});
 
-			services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMvc(options => options.EnableEndpointRouting = false);
 
 			if (_environment.IsDevelopment())
 			{
@@ -54,10 +63,16 @@ namespace Timelogger.Api
 					.AllowAnyHeader()
 					.SetIsOriginAllowed(origin => true)
 					.AllowCredentials());
-			}
 
-			app.UseMvc();
-
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                    options.RoutePrefix = string.Empty;
+                });
+            }
+			
+            app.UseMvc();
 
 			var serviceScopeFactory = app.ApplicationServices.GetService<IServiceScopeFactory>();
 			using (var scope = serviceScopeFactory.CreateScope())
