@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.popup-content {
+    margin: auto;
+    background: rgb(255, 255, 255);
+    width: 70%;
+    padding: 15px;
+    left: 25% !important;
+    top: 30% !important;
+}
+.popup-content input {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.popup-content button {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.popup-content div {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.popup-arrow {
+visibility: hidden;
+}
+[role='tooltip'].popup-content {
+width: 50%;
+box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+border-radius: 5%;
+}
+.popup-overlay {
+background: rgba(0, 0, 0, 0.5);
+}
+[data-popup='tooltip'].popup-overlay {
+background: transparent;
+}

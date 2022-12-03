@@ -39,7 +39,7 @@ namespace Timelogger.Api.Controllers
 
         // GET api/projects/ordered-by-deadline
         [HttpGet]
-        [Route("api/projects/ordered-by-deadline")]
+        [Route("ordered-by-deadline")]
         public IActionResult GetOrderedByDeadline(bool sortDesc = false)
         {
             try
@@ -54,7 +54,7 @@ namespace Timelogger.Api.Controllers
 
         // GET api/projects/{id}
         [HttpGet]
-        [Route("api/projects/{id}")]
+        [Route("{id}")]
         public IActionResult GetById(int id)
         {
             try
@@ -83,7 +83,7 @@ namespace Timelogger.Api.Controllers
 
         // POST api/projects/register-time
         [HttpPost]
-        [Route("api/projects/register-time")]
+        [Route("register-time")]
         public IActionResult RegisterTime(int id, TimeRegistration timeRegistration)
         {
             try
