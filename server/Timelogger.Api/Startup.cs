@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -37,8 +39,8 @@ namespace Timelogger.Api
 
             services.AddSwaggerGen();
 
-            services.AddScoped<IProjectsRepository, ProjectsRepository>();
             services.AddScoped<IProjectsService, ProjectsService>();
+            services.AddScoped<IProjectsRepository, ProjectsRepository>();
 
             services.AddLogging(builder =>
 			{
@@ -87,8 +89,19 @@ namespace Timelogger.Api
 			var testProject1 = new Project
 			{
 				Id = 1,
-				Name = "e-conomic Interview"
-			};
+				Name = "e-conomic Interview",
+				Deadline = DateTime.Today.AddMonths(5),
+                Complete = false,
+                TimeRegistrations = new List<TimeRegistration>()
+                {
+					new TimeRegistration
+                    {
+						Title = "Some Title",
+						Description = "Some Description",
+						TimeSpent = 60
+                    }
+                }
+            };
 
 			context.Projects.Add(testProject1);
 
