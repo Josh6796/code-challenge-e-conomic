@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Timelogger.Entities;
 
 namespace Timelogger.Api.Repository
@@ -32,6 +31,6 @@ namespace Timelogger.Api.Repository
         /// <param name="id">ID of the Project</param>
         /// <param name="timeRegistration">Time Registration to add</param>
         /// <returns>Project with added TimeRegistration</returns>
-        Project RegisterTime(int id, TimeRegistration timeRegistration);
+        Project RegisterTime(Project project, TimeRegistration timeRegistration);
     }
 }

@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Timelogger.Api.Repository;
 using Timelogger.Api.Services;
 using Timelogger.Entities;
@@ -35,20 +35,20 @@ namespace Timelogger.Api
 		{
 			// Add framework services.
 			services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("e-conomic interview"));
-            services.AddControllers();
+			services.AddControllers();
 
-            services.AddSwaggerGen();
+			services.AddSwaggerGen();
 
-            services.AddScoped<IProjectsService, ProjectsService>();
-            services.AddScoped<IProjectsRepository, ProjectsRepository>();
+			services.AddScoped<IProjectsService, ProjectsService>();
+			services.AddScoped<IProjectsRepository, ProjectsRepository>();
 
-            services.AddLogging(builder =>
+			services.AddLogging(builder =>
 			{
 				builder.AddConsole();
 				builder.AddDebug();
 			});
 
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+			services.AddMvc(options => options.EnableEndpointRouting = false);
 
 			if (_environment.IsDevelopment())
 			{
@@ -66,15 +66,15 @@ namespace Timelogger.Api
 					.SetIsOriginAllowed(origin => true)
 					.AllowCredentials());
 
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                    options.RoutePrefix = string.Empty;
-                });
-            }
-			
-            app.UseMvc();
+				app.UseSwagger();
+				app.UseSwaggerUI(options =>
+				{
+					options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+					options.RoutePrefix = string.Empty;
+				});
+			}
+
+			app.UseMvc();
 
 			var serviceScopeFactory = app.ApplicationServices.GetService<IServiceScopeFactory>();
 			using (var scope = serviceScopeFactory.CreateScope())
@@ -91,19 +91,28 @@ namespace Timelogger.Api
 				Id = 1,
 				Name = "e-conomic Interview",
 				Deadline = DateTime.Today.AddMonths(5),
-                Complete = false,
-                TimeRegistrations = new List<TimeRegistration>()
-                {
+				Complete = false,
+				TimeRegistrations = new List<TimeRegistration>()
+				{
 					new TimeRegistration
-                    {
+					{
 						Title = "Some Title",
 						Description = "Some Description",
 						TimeSpent = 60
-                    }
-                }
-            };
+					}
+				}
+			};
+			var testProject2 = new Project
+			{
+				Id = 2,
+				Name = "Test Project 2",
+				Deadline = DateTime.Today.AddMonths(2),
+				Complete = true,
+				TimeRegistrations = new List<TimeRegistration>()
+			};
 
 			context.Projects.Add(testProject1);
+			context.Projects.Add(testProject2);
 
 			context.SaveChanges();
 		}

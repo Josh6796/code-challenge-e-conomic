@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Timelogger.Entities;
 
@@ -28,7 +26,7 @@ namespace Timelogger.Api.Repository
         {
             return _context.Projects
                 .Include(p => p.TimeRegistrations)
-                .ToList(); 
+                .ToList();
         }
 
         public Project Add(Project project)
@@ -42,16 +40,8 @@ namespace Timelogger.Api.Repository
             return addedProject;
         }
 
-        public Project RegisterTime(int id, TimeRegistration timeRegistration)
+        public Project RegisterTime(Project project, TimeRegistration timeRegistration)
         {
-            var project = GetById(id);
-
-            if (project == null || project.TimeRegistrations.Contains(timeRegistration))
-                return null;
-
-            if (project.Complete)
-                throw new InvalidOperationException("You can not register time to a complete project");
-            
             project.TimeRegistrations.Add(timeRegistration);
             _context.SaveChanges();
 

@@ -1,8 +1,6 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using Timelogger.Api.Repository;
 using Timelogger.Entities;
 
@@ -18,7 +16,7 @@ namespace Timelogger.Api.Services
         }
 
         public Project GetById(int id)
-        { 
+        {
             var result = _projectsRepository.GetById(id);
 
             if (result == null)
@@ -65,12 +63,15 @@ namespace Timelogger.Api.Services
             if (timeRegistration.TimeSpent < 30)
                 throw new InvalidOperationException("Individual time registrations should be 30 minutes or longer");
 
-            var result = _projectsRepository.RegisterTime(id, timeRegistration);
-            
-            if (result == null)
-                throw new InvalidOperationException($"Project with ID {id} does not exist");
-           
-            return result;
+            var project = GetById(id);
+
+            if (project.TimeRegistrations.Contains(timeRegistration))
+                throw new InvalidOperationException($"Time Registration already exists in Project with ID {id}");
+
+            if (project.Complete)
+                throw new InvalidOperationException("You can not register time to a complete project");
+
+            return _projectsRepository.RegisterTime(project, timeRegistration);
         }
     }
 }
