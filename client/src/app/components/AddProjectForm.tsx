@@ -23,9 +23,6 @@ export default function AddProjectsForm() {
             if (response.status === 400) {
                 response.text().then((text) => setMessage(text));
             } 
-            else {
-                setMessage("Something went wrong");
-            }
           });
         } catch (err) {
           console.log(err);

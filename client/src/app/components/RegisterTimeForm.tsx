@@ -24,9 +24,6 @@ export default function RegisterTimeForm({ projectId }: any) {
             } 
             if (response.status === 400) {
                 response.text().then((text) => setMessage(text));
-            } 
-            else {
-                setMessage("Something went wrong");
             }
           });
         } catch (err) {
